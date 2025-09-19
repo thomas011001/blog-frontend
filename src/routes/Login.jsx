@@ -27,13 +27,13 @@ function Login() {
   }
 
   return (
-    <div className="flex min-h-dvh items-center justify-center p-5 bg-background ">
-      <div className="bg-white p-5 flex flex-col items-center w-1/1 max-w-100 gap-10">
+    <div className="flex min-h-dvh items-center justify-center p-5 bg-background">
+      <div className="bg-input p-5 flex flex-col items-center w-1/1 max-w-100 gap-10">
         <div className="flex flex-col gap-3 items-center ">
           <h1 className="font-serif text-3xl text-foreground ">
             Login To Our Blog
           </h1>
-          <p className="font-sans text-muted-foreground">
+          <p className="font-sans text-muted-foreground text-center">
             Enter your credentials to access your account
           </p>
         </div>
@@ -58,6 +58,7 @@ function Login() {
             type="submit"
             variant="primary"
             className={loading ? "opacity-50 cursor-not-allowed" : ""}
+            disable={loading}
           >
             {loading ? "Logging in..." : "Login"}
           </Button>
