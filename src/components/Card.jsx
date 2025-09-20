@@ -1,7 +1,7 @@
 export function Card({ children, className }) {
   return (
     <div
-      className={`bg-input p-5 flex flex-col items-center w-1/1 max-w-100 gap-10 ${className}`}
+      className={`bg-card p-5 flex flex-col items-center w-1/1 max-w-100 gap-10 ${className}`}
     >
       {children}
     </div>
