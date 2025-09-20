@@ -34,6 +34,18 @@ export function AuthProvider({ children }) {
     }
   }, []);
 
+  const signup = useCallback(
+    async (body) => {
+      try {
+        await api.post("/signup", body);
+        login(body);
+      } catch (e) {
+        setError({ message: e.response?.data.error.message });
+      }
+    },
+    [login]
+  );
+
   const logout = useCallback(async () => {
     await api.post("/logout");
     localStorage.removeItem("token");
@@ -76,6 +88,7 @@ export function AuthProvider({ children }) {
     login,
     logout,
     error,
+    signup,
   };
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
