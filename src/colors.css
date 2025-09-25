@@ -77,4 +77,12 @@
   body {
     @apply bg-background text-foreground;
   }
+
+  * {
+    @apply font-sans;
+  }
+
+  hr {
+    @apply text-foreground;
+  }
 }
