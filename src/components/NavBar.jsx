@@ -6,32 +6,43 @@ import DropDown, {
   DropDownLink,
   DropDownMenu,
 } from "./DropDown";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Avatar, { AvatarImg } from "./Avatar";
+import confirmOrder from "./confirmOrder";
 
 function NavBar() {
-  const { user, loading } = useAuth();
+  const { user, loading, logout } = useAuth();
   const [openMenu, setOpenMenu] = useState(false);
   const navigate = useNavigate();
+  const dropdownRef = useRef(null);
+
+  useEffect(() => {
+    function handleClickOutside(e) {
+      if (dropdownRef.current && !dropdownRef.current.contains(e.target)) {
+        setOpenMenu(false);
+      }
+    }
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
+
+  const logoutHandler = () => {
+    confirmOrder(logout, "Are You Sure To Logout?");
+  };
 
   return (
-    <nav className="bg-card text-foreground max-w-200 p-5 mx-auto gap-10 flex justify-between items-center shadow-2xl">
-      <h1 className="text-primary text-3xl font-serif">Explore</h1>
-      <div className="gap-3 hidden sm:flex">
-        <p className="text-muted-foreground cursor-pointer hover:underline">
-          <Link to="/posts">Posts</Link>
-        </p>
-        <p className="text-muted-foreground cursor-pointer hover:underline">
-          <Link to="/authors">Authors</Link>
-        </p>
-        <p className="text-muted-foreground">|</p>
-        <p className="text-muted-foreground cursor-pointer hover:underline">
-          <Link to="/about">About</Link>
-        </p>
-        <p className="text-muted-foreground cursor-pointer hover:underline">
-          <Link to="/contact">Contact</Link>
-        </p>
-      </div>
+    <nav
+      ref={dropdownRef}
+      className="bg-card text-foreground max-w-200 w-full p-5 mx-auto gap-10 flex justify-between items-center shadow-2xl"
+    >
+      <h1>
+        <Link
+          className="text-primary text-3xl font-serif hover:underline"
+          to={"/"}
+        >
+          Online Blog
+        </Link>
+      </h1>
       {!user && !loading ? (
         <div className="gap-2 flex">
           <Link to="/signup">
@@ -50,7 +61,10 @@ function NavBar() {
             </Avatar>
           </DropDownButton>
           <DropDownMenu state={openMenu}>
-            <DropDownLink className="flex justify-between hover:bg-transparent">
+            <DropDownLink
+              onClick={() => setOpenMenu(false)}
+              className="flex justify-between hover:bg-transparent"
+            >
               <p className="font-serif">@{user?.username}</p>
               <Button
                 onClick={() => setOpenMenu(false)}
@@ -60,15 +74,21 @@ function NavBar() {
               </Button>
             </DropDownLink>
             <hr />
+            <DropDownLink onClick={() => setOpenMenu(false)}>
+              <Link to="/" className="block">
+                Home
+              </Link>
+            </DropDownLink>
+            <hr />
             {user?.isAuthor ? (
               <>
-                <DropDownLink>
-                  <Link to="/me/posts" className="block">
-                    My posts
+                <DropDownLink onClick={() => setOpenMenu(false)}>
+                  <Link to={`uesrs/${user.id}`} className="block">
+                    Profile
                   </Link>
                 </DropDownLink>
                 <hr />
-                <DropDownLink>
+                <DropDownLink onClick={() => setOpenMenu(false)}>
                   <Link to="/new" className="block">
                     Craete New Post
                   </Link>
@@ -77,42 +97,17 @@ function NavBar() {
               </>
             ) : null}
 
-            <DropDownLink className="sm:hidden">
-              <Link to="/posts" className="block">
-                Posts
-              </Link>
-            </DropDownLink>
-            <hr className="sm:hidden" />
-            <DropDownLink className="sm:hidden">
-              <Link to="/authors" className="block">
-                Authors
-              </Link>
-            </DropDownLink>
-            <hr className="sm:hidden" />
-            <DropDownLink className="sm:hidden">
-              <Link to="/about" className="block">
-                About
-              </Link>
-            </DropDownLink>
-            <hr className="sm:hidden" />
-            <DropDownLink className="sm:hidden">
-              <Link to="/contact" className="block">
-                Contact
-              </Link>
-            </DropDownLink>
-            <hr className="sm:hidden" />
-            <DropDownLink>
-              <Link to="/me/posts" className="block">
+            <DropDownLink onClick={() => setOpenMenu(false)}>
+              <Link to="/settings" className="block">
                 Settings
               </Link>
             </DropDownLink>
             <hr />
-            <DropDownLink className="hover:bg-transparent w-1/1 flex justify-center">
-              <Button
-                outline
-                className="!h-10"
-                onClick={() => navigate("/logout")}
-              >
+            <DropDownLink
+              onClick={() => setOpenMenu(false)}
+              className="hover:bg-transparent w-1/1 flex justify-center"
+            >
+              <Button outline className="!h-10" onClick={logoutHandler}>
                 Logout
               </Button>
             </DropDownLink>
