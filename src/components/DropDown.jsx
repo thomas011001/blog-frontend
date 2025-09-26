@@ -8,10 +8,11 @@ function DropDown({ children, className = "" }) {
   );
 }
 
-export function DropDownLink({ children, className = "" }) {
+export function DropDownLink({ children, className = "", onClick }) {
   return (
     <div
-      className={`p-2 font-sans text-foreground hover:bg-muted ${className}`}
+      className={`p-1 font-sans text-foreground hover:bg-muted m-1 rounded ${className}`}
+      onClick={onClick}
     >
       {children}
     </div>
@@ -21,7 +22,7 @@ export function DropDownLink({ children, className = "" }) {
 export function DropDownMenu({ children, state, className = "" }) {
   return (
     <div
-      className={`flex flex-col w-full justify-center p-10 right-0 top-0 absolute h-dvh bg-card sm:p-0 sm:top-10  sm:right-5 sm:h-auto sm:w-50  sm:rounded py-3 shadow-2xl  ${
+      className={`flex flex-col absolute justify-center bg-card p-0 top-10  right-5 h-auto w-50  rounded py-3 shadow-2xl  ${
         !state ? "hidden" : ""
       } ${className}`}
     >
