@@ -5,7 +5,6 @@ export default function Pagination({ value, handler, className, meta }) {
   const prevHandler = () => {
     if (value > 1) handler(value - 1);
   };
-  console.log(meta);
   return (
     <div className={`flex justify-center h-10 ${className}`}>
       <Button
@@ -23,7 +22,7 @@ export default function Pagination({ value, handler, className, meta }) {
         onClick={nextHandler}
         disabled={value >= meta?.totalPages}
       >
-        {value >= meta?.totalPages ? "No Next Page" : "Next"}
+        Next
       </Button>
     </div>
   );

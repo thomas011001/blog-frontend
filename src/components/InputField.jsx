@@ -29,3 +29,23 @@ export function InputTitle({ children, className = "" }) {
 export function InputField({ children, className = "" }) {
   return <div className={`flex flex-col gap-2 ${className}`}>{children}</div>;
 }
+
+export function TextArea({
+  placeholder,
+  value,
+  handler,
+  type = "text",
+  className = "",
+  ...props
+}) {
+  return (
+    <textarea
+      type={type}
+      className={`border-border px-5 py-3 text-foreground bg-input border rounded ${className}`}
+      value={value}
+      onChange={handler}
+      placeholder={placeholder}
+      {...props}
+    />
+  );
+}

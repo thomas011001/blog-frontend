@@ -24,10 +24,10 @@ export default function Articles({ keyword, user = null, sort = true }) {
           data.data.map((p) => <Article key={p.id} data={p} />)
         ) : (
           <div
-            class="animate-spin inline-block w-8 h-8 border-4 border-t-primary border-gray-200 rounded-full"
+            className="animate-spin inline-block w-8 h-8 border-4 border-t-primary border-gray-200 rounded-full"
             role="status"
           >
-            <span class="sr-only">Loading...</span>
+            <span className="sr-only">Loading...</span>
           </div>
         )}
       </div>
