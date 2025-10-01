@@ -10,7 +10,7 @@ function Login() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
-  const { login, error, user } = useAuth();
+  const { login, error, user, setError } = useAuth();
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -22,8 +22,9 @@ function Login() {
   useEffect(() => {
     if (error) {
       toast.error(error.message);
+      setError(null);
     }
-  }, [error]);
+  }, [error, setError]);
 
   const handleUsernameInput = (e) => setUsername(e.target.value);
   const handlePasswordInput = (e) => setPassword(e.target.value);
