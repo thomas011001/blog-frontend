@@ -10,8 +10,9 @@ function SignUp() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [isAuthor, setIsAuthor] = useState(false);
+  const [avatarUrl, setUrl] = useState("");
   const [loading, setLoading] = useState(false);
-  const { signup, error, user } = useAuth();
+  const { signup, error, user, setError, loading: userLoading } = useAuth();
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -23,19 +24,24 @@ function SignUp() {
   useEffect(() => {
     if (error) {
       toast.error(error.message);
+      setError(null);
     }
-  }, [error]);
+  }, [error, setError]);
 
   const handleUsernameInput = (e) => setUsername(e.target.value);
   const handlePasswordInput = (e) => setPassword(e.target.value);
+  const handleUrlInput = (e) => setUrl(e.target.value);
 
   async function handleFormSubmit(e) {
     e.preventDefault();
 
     setLoading(true);
-    await signup({ username, password, isAuthor });
+    await signup({ username, password, isAuthor, avatarUrl });
     setLoading(false);
-    navigate("/");
+  }
+
+  if (userLoading) {
+    return "...loading";
   }
 
   return (
@@ -70,6 +76,16 @@ function SignUp() {
                 value={password}
                 required
                 type="text"
+              />
+            </InputField>
+            <InputField>
+              <InputTitle>Avatar Url:</InputTitle>
+              <Input
+                placeholder={"Avatar Url"}
+                handler={handleUrlInput}
+                value={avatarUrl}
+                required
+                type="url"
               />
             </InputField>
             <InputField className="flex-row items-center">

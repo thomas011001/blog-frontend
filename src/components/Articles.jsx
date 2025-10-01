@@ -19,7 +19,7 @@ export default function Articles({ keyword, user = null, sort = true }) {
 
   return (
     <>
-      <div className="flex gap-5 items-center justify-center">
+      <div className="flex gap-5 items-center justify-center flex-col">
         {data && !loading ? (
           data.data.map((p) => <Article key={p.id} data={p} />)
         ) : (
