@@ -20,7 +20,7 @@ export const useAuth = () => {
 
 export function AuthProvider({ children }) {
   const [user, setUser] = useState(null);
-  const [userLoading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(true);
   const [token, setToken] = useState(localStorage.getItem("token"));
   const [error, setError] = useState(false);
 
@@ -50,6 +50,7 @@ export function AuthProvider({ children }) {
     await api.post("/logout");
     localStorage.removeItem("token");
     setToken(null);
+    setUser(null);
   }, []);
 
   const getUserInfo = useCallback(async () => {
@@ -65,7 +66,7 @@ export function AuthProvider({ children }) {
     };
 
     if (token) {
-      fetchUser();
+      await fetchUser();
     } else {
       try {
         const res = await api.post("/refresh");
@@ -84,11 +85,12 @@ export function AuthProvider({ children }) {
 
   const value = {
     user,
-    userLoading,
+    loading,
     login,
     logout,
     error,
     signup,
+    setError,
   };
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
