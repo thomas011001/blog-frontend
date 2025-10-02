@@ -13,7 +13,6 @@ import confirmOrder from "./confirmOrder";
 function NavBar() {
   const { user, loading, logout } = useAuth();
   const [openMenu, setOpenMenu] = useState(false);
-  const navigate = useNavigate();
   const dropdownRef = useRef(null);
 
   useEffect(() => {
